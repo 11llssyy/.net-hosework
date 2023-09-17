@@ -1,0 +1,36 @@
+table {
+    font-family: 微软雅黑;
+    width: 50%;
+    margin: 20px auto;
+    border-collapse: collapse;
+    text-align: center;
+    }
+    .table caption{
+    background-color:rgb(178, 217, 231);
+    height: 50px;
+    text-align: center;
+    margin: auto;
+    line-height: 50px;
+    }
+    .table th,
+    .table td {
+    border: 1px solid silver;
+    }
+    .table caption {
+    font-size: 1.2rem;
+    letter-spacing: 5px;
+    margin-bottom: 10px;
+    }
+    .table th {
+    background-color:rgb(178, 217, 231);
+    color :black; 
+    font-size: 1.1em;
+    text-align: left;
+    padding: 5px 7px;
+    }
+    .table td {
+    padding: 3px 7px;
+    }
+    .table tr.alt {
+    background-color: #eaf2d3;
+    }

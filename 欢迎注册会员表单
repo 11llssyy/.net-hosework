@@ -1,0 +1,218 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <style>
+      lable {
+        display: inline-block;
+        text-align: right;
+        width: 80px;
+      }
+    </style>
+
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+    <style>
+      *{
+        padding:0;
+        margin:0;
+      }
+    .box{
+      width: 80px;
+       height:144px;
+       display:block;
+       float:left;
+       padding-top:66px;
+      }
+  </style>
+
+  </head>
+  <body>
+    </style>
+    <form  method="post" action="#" enctype="multipart/form-data">
+      <p>
+        <span style="color: blue">欢迎注册会员</span>
+      </p>
+      <lable>手机号码：</lable>
+      <input type="text" name="username" placeholder="11位手机号" />
+      <span style="color: red">必填</span>
+      <br />
+      <lable>创建密码：</lable>
+      <input type="password" name="pwd" maxlength="8" placeholder="8位密码" />
+      <span style="color: red">必填</span>
+      <br />
+      <lable>注册邮箱：</lable>
+      <input type="text" name="e-mail" placeholder="长度8个字符" />
+      <span style="color: red">必填</span>
+      <br />
+      <lable>验证码：</lable>
+      <input type="text" name="yanzm" id="yanzhengma" />
+      <span id="capcha"></span>
+      <img src="images/arrow_03.png" id="change_capcha" alt="" />
+      <br />
+      <lable>性别：</lable>
+      <input type="radio" name="sex" value="male" /> 男
+      <input type="radio" name="sex" value="female" /> 女
+      <br />
+      <lable>生日:</lable>
+      <input type="text" name="birthday" value="年/月/日" />
+      <br />
+      <lable>年龄:</lable>
+      <input type="text" name="age" />
+      <br />
+      <lable>籍贯:</lable>
+      <select name="" id="province">
+        <option value="0">选择省</option>
+        <option value="1">湖北</option>
+        <option value="2">湖南</option>
+        </select>
+        <select name="" id="city">
+        <option value="0">选择市</option>
+        </select>
+      <br />
+      <lable>个人学历:</lable>
+      <select name="xueli">
+        <option value="0">本科</option>
+        <option value="1">大专</option>
+        <option value="2">高中</option>
+        <option value="3">研究生</option>
+        <option value="4">博士</option>
+      </select>
+      <br />
+      <lable>月薪：</lable>
+      <input
+        type="range"
+        id="score"
+        name="score"
+        min="0"
+        max="5000"
+        step="10"
+        value="2500"
+      />
+      <span id="msg"></span>
+      <br />
+      个人爱好：
+      <label> <input type="checkbox" name="like" value="sing" />唱歌 </label>
+      <label> <input type="checkbox" name="like" value="run" />跑步 </label>
+      <label> <input type="checkbox" name="like" value="swim" />游泳 </label>
+      <br />
+      <lable>个人照片：</lable> 
+      <input type="file" id="test-image-file" name="test">
+      <p id="test-file-info"></p>
+      <div id="test-image-preview" style="border: 1px solid silver; width: 375px; margin-left: 80px;
+      height: 144px; background-repeat: no-repeat;background-position: center;"></div>
+      <p></p>
+      
+      <span class="box">个人简历 :</span>
+      <textarea  name="intro" cols="50" rows="10"></textarea>
+      <br />
+      <div>
+        <p>
+          <input type="submit" value="提交" />
+          <input type="reset" value="重填" />
+        </p>
+      </div>
+    </form>
+  </body>
+
+  <script>
+    var msg = document.getElementById("msg"); // 根据id值找到span元素
+    window.onload = function () {
+      msg.innerHTML = document.getElementById("score").value; // 获取区间域初始value值
+    };
+    document.getElementById("score").onchange = function () {
+      msg.innerHTML = this.value; // 将当前区间域的value作为span元素的内容
+    };
+  </script>
+
+<script>
+  var fileInput = document.getElementById('test-image-file');
+  var info = document.getElementById('test-file-info');
+  var preview = document.getElementById('test-image-preview');
+  fileInput.addEventListener('change', function () { // 监听change事件
+   preview.style.backgroundImage = ''; // 清除背景图片
+   if (!fileInput.value) {
+  info.innerHTML = '没有选择文件';
+  return;
+  }
+  var file = fileInput.files[0]; // 获取File引用
+   // 获取File信息:
+  info.innerHTML = '文件: ' + file.name + '<br>' + '大小: ' + file.size + '<br>' + '修改: ' + file.lastModifiedDate;
+  if (file.type !== 'image/jpeg' && file.type !== 'image/png' && file.type !== 'image/gif') {
+  alert('不是有效的图片文件!');
+  return;
+  }
+  var reader = new FileReader(); // 读取文件
+   reader.onload = function (e) { // 发起一个异步操作来读取文件内容
+  var data = e.target.result; // data串形如： 'data:image/jpeg;base64,/9j/4AAQSk...(base64编码)...'
+  preview.style.backgroundImage = 'url(' + data + ')';
+  };
+  reader.readAsDataURL(file); // 以DataURL的形式读取文件
+   });
+  </script>
+  
+<script>
+  var img=document.getElementById("yanzhengma");
+//验证码：由大小写字母或数字组成
+let codeStr ="abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789";
+//验证码长度
+let length = 5;
+let capcha = document.getElementById("capcha");
+let change_capcha = document.getElementById("change_capcha");
+// 用来生成一个[n,m]随机整数
+function getRandom(n, m) {
+return parseInt(Math.random() * (m - n + 1) + n);
+}
+// 将随机生成的整数下标对应的字母放入span中
+function getCode() {
+let str = "";
+// 验证码有几位就循环几次
+ for (let i = 0; i < length; i++) {
+let index = getRandom(0, 61);
+str += codeStr.charAt(index);
+}
+capcha.innerHTML = str;
+}
+// 页面初始加载时就调用函数生成验证码，页面刷新也会执行
+getCode();
+// 点击刷新验证码
+capcha.addEventListener("click", getCode);
+change_capcha.addEventListener("click", getCode);
+</script>
+
+<script>
+  let province = document.getElementById("province");
+let city = document.getElementById("city");
+province.addEventListener("change", createCity);
+//创建city信息
+function createCity() {
+let val = province.value;
+let ops;
+switch (val) {
+case "0": //case用字符串
+ city.innerHTML = '<option value="0">选择市</option>';
+break;
+case "1":
+city.innerHTML = ""; //清空
+ ops = createOp(0, "武汉");
+city.appendChild(ops);
+ops = createOp(1, "黄石");
+city.appendChild(ops);
+break;
+case "2":
+city.innerHTML = "";
+ops = createOp(0, "长沙");
+city.appendChild(ops);
+ops = createOp(1, "湘潭");
+city.appendChild(ops);
+break;
+}
+}
+function createOp(val, cname) {
+let ops = document.createElement("option");
+ops.value = val;
+ops.innerHTML = cname;
+return ops;
+}
+</script>
+</html>
